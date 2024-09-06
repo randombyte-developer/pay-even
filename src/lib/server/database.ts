@@ -1,14 +1,17 @@
-import { max } from "radash";
+import { error } from "@sveltejs/kit";
+import { max, first, select } from "radash";
+import { sortUserPlugins } from "vite";
 
 type User = {
-	persons: Map<string, Person>;
+	id: string;
+	persons: Person[];
 };
 
 type Person = {
 	id: string;
 	order: number;
 	name: string;
-	expenses: Map<string, Expense>;
+	expenses: Expense[];
 };
 
 type Expense = {
@@ -17,36 +20,70 @@ type Expense = {
 	name?: string;
 };
 
-const db = new Map<string, User>();
+const db = new Array<User>();
 
 function getOrCreateUser(userId: string): User {
-	if (!db.get(userId)) {
-		db.set(userId, {
-			persons: new Map()
-		});
+	let user = db.find((user) => user.id === userId);
+	if (!user) {
+		user = {
+			id: userId,
+			persons: []
+		};
+		db.push(user);
 	}
-
-	return db.get(userId)!;
+	return user;
 }
 
 export function createPerson(userId: string, name: string) {
 	const user = getOrCreateUser(userId);
-	const maxPersonOrder = max([...user.persons.values()], (p) => p.order)?.order ?? 0;
+	const maxPersonOrder = max(user.persons, (person) => person.order)?.order ?? 0;
 	const person: Person = {
 		id: crypto.randomUUID(),
 		order: maxPersonOrder + 1,
 		name: name,
-		expenses: new Map()
+		expenses: []
 	};
-	user.persons.set(person.id, person);
+	user.persons.push(person);
 }
 
 export function getPersons(userId: string): Person[] {
-	const user = getOrCreateUser(userId);
-	return [...user.persons.values()];
+	return getOrCreateUser(userId).persons;
+}
+
+function getPerson(userId: string, personId: string): Person {
+	const persons = getPersons(userId);
+	const person = persons.find((person) => person.id === personId);
+	if (person == null) {
+		throw error(404, "Person not found!");
+	}
+
+	return person;
 }
 
 export function deletePerson(userId: string, personId: string) {
 	const user = getOrCreateUser(userId);
-	user.persons.delete(personId);
+	user.persons = user.persons.filter((person) => person.id !== personId);
+}
+
+export function createExpense(
+	userId: string,
+	personId: string,
+	amountCents: number,
+	name?: string
+) {
+	const person = getPerson(userId, personId);
+	person.expenses.push({
+		id: crypto.randomUUID(),
+		amountCents: amountCents,
+		name: name
+	});
+}
+
+export function deleteExpense(
+	userId: string,
+	personId: string,
+	expenseId: string,
+) {
+	const person = getPerson(userId, personId);
+	person.expenses = person.expenses.filter(expense => expense.id !== expenseId);
 }

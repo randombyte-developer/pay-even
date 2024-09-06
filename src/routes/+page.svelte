@@ -15,10 +15,33 @@
 
 <ul>
 	{#each data.persons as person}
-		<form method="POST" action="?/deletePerson">
-			<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-			<li>{person.name}</li>
-			<button>Delete</button>
-		</form>
+		<li>
+			{person.name}
+			<form method="POST" action="?/deletePerson">
+				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+				<button>Delete</button>
+			</form>
+			<form method="POST" action="?/createExpense">
+				<label>
+					<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+					<input name={constants.FORM_EXPENSE_NAME} />
+					<input name={constants.FORM_EXPENSE_AMOUNT} />
+				</label>
+				<button>Create</button>
+			</form>
+			<ul>
+				{#each person.expenses as expense}
+					<li>
+						{expense.name}
+						{expense.amountCents}
+						<form method="POST" action="?/deleteExpense">
+							<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+							<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense.id} />
+							<button>Delete</button>
+						</form>
+					</li>
+				{/each}
+			</ul>
+		</li>
 	{/each}
 </ul>
