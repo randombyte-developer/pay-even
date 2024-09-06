@@ -15,6 +15,10 @@
 
 <ul>
 	{#each data.persons as person}
-		<li>{person.name}</li>
+		<form method="POST" action="?/deletePerson">
+			<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+			<li>{person.name}</li>
+			<button>Delete</button>
+		</form>
 	{/each}
 </ul>
