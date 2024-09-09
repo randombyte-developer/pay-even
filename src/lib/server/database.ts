@@ -78,11 +78,7 @@ export function createExpense(
 	});
 }
 
-export function deleteExpense(
-	userId: string,
-	personId: string,
-	expenseId: string,
-) {
+export function deleteExpense(userId: string, personId: string, expenseId: string) {
 	const person = getPerson(userId, personId);
-	person.expenses = person.expenses.filter(expense => expense.id !== expenseId);
+	person.expenses = person.expenses.filter((expense) => expense.id !== expenseId);
 }
