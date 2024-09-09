@@ -12,7 +12,8 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"prepare": "husky install"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
@@ -24,6 +25,8 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
+		"husky": "^9.1.5",
+		"lint-staged": "^15.2.10",
 		"prettier": "^3.1.1",
 		"prettier-plugin-organize-imports": "^4.0.0",
 		"prettier-plugin-svelte": "^3.1.2",
@@ -37,5 +40,9 @@
 	"type": "module",
 	"dependencies": {
 		"radash": "^12.1.0"
+	},
+	"lint-staged": {
+		"*.js": "eslint --cache --fix",
+		"*.{js,css,md}": "prettier --write"
 	}
 }

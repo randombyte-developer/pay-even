@@ -9,7 +9,7 @@ export type User = {
 export type Person = {
 	id: string;
 	order: number;
-	name: string;
+	name: string
 	expenses: Expense[];
 };
 
