@@ -1,5 +1,4 @@
 import { error } from "@sveltejs/kit";
-import { max } from "radash";
 
 export type User = {
 	id: string;
@@ -8,8 +7,7 @@ export type User = {
 
 export type Person = {
 	id: string;
-	order: number;
-	name: string
+	name: string;
 	expenses: Expense[];
 };
 
@@ -35,10 +33,8 @@ function getOrCreateUser(userId: string): User {
 
 export function createPerson(userId: string, name: string) {
 	const user = getOrCreateUser(userId);
-	const maxPersonOrder = max(user.persons, (person) => person.order)?.order ?? 0;
 	const person: Person = {
 		id: crypto.randomUUID(),
-		order: maxPersonOrder + 1,
 		name: name,
 		expenses: []
 	};
