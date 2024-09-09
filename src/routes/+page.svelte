@@ -2,12 +2,14 @@
 	import * as constants from "$lib/constants";
 
 	export let data;
+	export let form;
 </script>
 
 <h1>PayEven</h1>
 
 <form method="POST" action="?/createPerson">
 	<label>
+		Name:
 		<input name={constants.FORM_PERSON_NAME} />
 	</label>
 	<button>Create</button>
@@ -22,9 +24,13 @@
 				<button>Delete</button>
 			</form>
 			<form method="POST" action="?/createExpense">
+				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
 				<label>
-					<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+					Name:
 					<input name={constants.FORM_EXPENSE_NAME} />
+				</label>
+				<label>
+					Amount:
 					<input name={constants.FORM_EXPENSE_AMOUNT} />
 				</label>
 				<button>Create</button>
@@ -45,3 +51,18 @@
 		</li>
 	{/each}
 </ul>
+
+<form method="POST" action="?/calculate">
+	<button>Calculate</button>
+</form>
+
+{#if form?.result}
+	Result:
+	<ul>
+		{#each form?.result as { from, to, amount }}
+			<li>
+				{from} -> {to}: {amount}
+			</li>
+		{/each}
+	</ul>
+{/if}

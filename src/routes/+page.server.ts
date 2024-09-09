@@ -1,6 +1,7 @@
 import type { Actions } from "./$types";
 import * as constants from "$lib/constants";
 import * as db from "$lib/server/database";
+import * as calculator from "$lib/server/calculator";
 
 const userIdCookie = "userId";
 
@@ -44,4 +45,12 @@ export const actions = {
         const expenseId = data.get(constants.FORM_EXPENSE_ID) as string;
         db.deleteExpense(userId, personId, expenseId);
     },
+    calculate: async ({ cookies, _ }) => {
+        const userId = cookies.get(userIdCookie)!;
+        const persons = db.getPersons(userId);
+        const result = calculator.calculate(persons);
+        return {
+            result: result
+        };
+    }
 } satisfies Actions;

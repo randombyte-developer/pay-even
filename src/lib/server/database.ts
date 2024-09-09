@@ -1,20 +1,19 @@
 import { error } from "@sveltejs/kit";
-import { max, first, select } from "radash";
-import { sortUserPlugins } from "vite";
+import { max } from "radash";
 
-type User = {
+export type User = {
 	id: string;
 	persons: Person[];
 };
 
-type Person = {
+export type Person = {
 	id: string;
 	order: number;
 	name: string;
 	expenses: Expense[];
 };
 
-type Expense = {
+export type Expense = {
 	id: string;
 	amountCents: number;
 	name?: string;
