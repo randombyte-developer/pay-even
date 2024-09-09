@@ -2,7 +2,8 @@ name: Runs tests and deploy
 
 on:
   push:
-    branches: [main]
+    branches:
+      - master
 
 jobs:
   build:
