@@ -18,6 +18,13 @@ export function load({ cookies }) {
 }
 
 export const actions = {
+	clear: async ({ cookies }) => {
+		const userId = cookies.get(userIdCookie)!;
+		const persons = db.getPersons(userId);
+		for (const person of persons) {
+			db.deletePerson(userId, person.id)
+		}
+	},
 	createPerson: async ({ cookies, request }) => {
 		const data = await request.formData();
 		const userId = cookies.get(userIdCookie)!;
@@ -45,7 +52,7 @@ export const actions = {
 		const expenseId = data.get(constants.FORM_EXPENSE_ID) as string;
 		db.deleteExpense(userId, personId, expenseId);
 	},
-	calculate: async ({ cookies, _ }) => {
+	calculate: async ({ cookies }) => {
 		const userId = cookies.get(userIdCookie)!;
 		const persons = db.getPersons(userId);
 		const result = calculator.calculate(persons);

@@ -19,6 +19,10 @@
 	<button>Create</button>
 </form>
 
+<form method="POST" action="?/clear">
+	<button>Clear</button>
+</form>
+
 <ul>
 	{#each data.persons as person}
 		<li>
