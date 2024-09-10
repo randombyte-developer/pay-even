@@ -22,7 +22,7 @@ export const actions = {
 		const userId = cookies.get(userIdCookie)!;
 		const persons = db.getPersons(userId);
 		for (const person of persons) {
-			db.deletePerson(userId, person.id)
+			db.deletePerson(userId, person.id);
 		}
 	},
 	createPerson: async ({ cookies, request }) => {

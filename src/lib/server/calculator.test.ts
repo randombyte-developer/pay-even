@@ -3,20 +3,20 @@ import { calculate, type Transaction } from "./calculator";
 import type { Person } from "./database";
 
 function genPerson(id: string, expenses: number[]): Person {
-    return {
-        id: id,
-        name: id,
-        expenses: expenses.map((expense) => ({
-            id: crypto.randomUUID(),
-            amountCents: expense
-        }))
-    };
+	return {
+		id: id,
+		name: id,
+		expenses: expenses.map((expense) => ({
+			id: crypto.randomUUID(),
+			amountCents: expense
+		}))
+	};
 }
 
 describe("calculator", () => {
-    test.each(
-        // prettier-ignore
-        [
+	test.each(
+		// prettier-ignore
+		[
             {
                 persons: [],
                 expected: []
@@ -104,16 +104,18 @@ describe("calculator", () => {
                 ]
             }
         ]
-    )("transaction are calculated as expected", ({ persons, expected }) => {
-        // sort transactions because order should not matter
-        function sortTransactions(transactions: Transaction[]) {
-            transactions.sort((a, b) => a.from.localeCompare(b.from) || a.to.localeCompare(b.to) || a.amount - b.amount);
-        }
+	)("transaction are calculated as expected", ({ persons, expected }) => {
+		// sort transactions because order should not matter
+		function sortTransactions(transactions: Transaction[]) {
+			transactions.sort(
+				(a, b) => a.from.localeCompare(b.from) || a.to.localeCompare(b.to) || a.amount - b.amount
+			);
+		}
 
-        const actual = calculate(persons);
-        sortTransactions(actual);
-        sortTransactions(expected);
+		const actual = calculate(persons);
+		sortTransactions(actual);
+		sortTransactions(expected);
 
-        expect(actual).toEqual(expected);
-    });
+		expect(actual).toEqual(expected);
+	});
 });
