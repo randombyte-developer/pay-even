@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as constants from "$lib/constants";
+	import { enhance } from "$app/forms";
 
 	export let data;
 	export let form;
@@ -11,7 +12,7 @@
 
 <h1>PayEven</h1>
 
-<form method="POST" action="?/createPerson">
+<form method="POST" action="?/createPerson" use:enhance>
 	<label>
 		Name:
 		<input name={constants.FORM_PERSON_NAME} />
@@ -19,7 +20,7 @@
 	<button>Create</button>
 </form>
 
-<form method="POST" action="?/clear">
+<form method="POST" action="?/clear" use:enhance>
 	<button>Clear</button>
 </form>
 
@@ -27,11 +28,11 @@
 	{#each data.persons as person}
 		<li>
 			{person.name}
-			<form method="POST" action="?/deletePerson">
+			<form method="POST" action="?/deletePerson" use:enhance>
 				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
 				<button>Delete</button>
 			</form>
-			<form method="POST" action="?/createExpense">
+			<form method="POST" action="?/createExpense" use:enhance>
 				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
 				<label>
 					Name:
@@ -48,7 +49,7 @@
 					<li>
 						{expense.name}
 						{expense.amountCents}
-						<form method="POST" action="?/deleteExpense">
+						<form method="POST" action="?/deleteExpense" use:enhance>
 							<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
 							<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense.id} />
 							<button>Delete</button>
@@ -60,7 +61,7 @@
 	{/each}
 </ul>
 
-<form method="POST" action="?/calculate">
+<form method="POST" action="?/calculate" use:enhance>
 	<button>Calculate</button>
 </form>
 
