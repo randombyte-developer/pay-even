@@ -1,8 +1,12 @@
-<script>
+<script lang="ts">
 	import * as constants from "$lib/constants";
 
 	export let data;
 	export let form;
+
+	function getPersonName(id: string): string {
+		return data.persons.find((p) => p.id === id)?.name ?? "<Unknown person>";
+	}
 </script>
 
 <h1>PayEven</h1>
@@ -61,7 +65,7 @@
 	<ul>
 		{#each form?.result as { from, to, amount }}
 			<li>
-				{from} -> {to}: {amount}
+				{getPersonName(from)} has to pay {getPersonName(to)}: {amount}
 			</li>
 		{/each}
 	</ul>
