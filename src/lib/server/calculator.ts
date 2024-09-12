@@ -8,6 +8,8 @@ export type Transaction = {
 };
 
 export function calculate(persons: Person[]): Transaction[] {
+	const getPersonName = (id: string) => persons.find((p) => p.id === id)?.name ?? "<Unknown person>";
+
 	const expenses = persons.map((person) => ({
 		id: person.id,
 		amount: sum(person.expenses, (e) => e.amountCents)
@@ -32,8 +34,8 @@ export function calculate(persons: Person[]): Transaction[] {
 
 		const amount = Math.min(largestDebitor.diff, largestCreditor.diff);
 		transactions.push({
-			from: largestDebitor.id,
-			to: largestCreditor.id,
+			from: getPersonName(largestDebitor.id),
+			to: getPersonName(largestCreditor.id),
 			amount: amount
 		});
 

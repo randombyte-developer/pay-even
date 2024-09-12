@@ -55,9 +55,9 @@ export const actions = {
 	calculate: async ({ cookies }) => {
 		const userId = cookies.get(userIdCookie)!;
 		const persons = db.getPersons(userId);
-		const result = calculator.calculate(persons);
+		const transactions = calculator.calculate(persons);
 		return {
-			result: result
+			transactions: transactions
 		};
 	}
 } satisfies Actions;
