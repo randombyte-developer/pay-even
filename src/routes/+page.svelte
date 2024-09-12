@@ -1,6 +1,8 @@
 <script lang="ts">
 	import * as constants from "$lib/constants";
 	import { enhance } from "$app/forms";
+	import Person from "../components/Person.svelte";
+	import Expense from "../components/Expense.svelte";
 
 	export let data;
 	export let form;
@@ -27,36 +29,7 @@
 <ul>
 	{#each data.persons as person}
 		<li>
-			{person.name}
-			<form method="POST" action="?/deletePerson" use:enhance>
-				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-				<button>Delete</button>
-			</form>
-			<form method="POST" action="?/createExpense" use:enhance>
-				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-				<label>
-					Name:
-					<input name={constants.FORM_EXPENSE_NAME} />
-				</label>
-				<label>
-					Amount:
-					<input name={constants.FORM_EXPENSE_AMOUNT} />
-				</label>
-				<button>Create</button>
-			</form>
-			<ul>
-				{#each person.expenses as expense}
-					<li>
-						{expense.name}
-						{expense.amountCents}
-						<form method="POST" action="?/deleteExpense" use:enhance>
-							<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-							<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense.id} />
-							<button>Delete</button>
-						</form>
-					</li>
-				{/each}
-			</ul>
+			<Person {person} />
 		</li>
 	{/each}
 </ul>
