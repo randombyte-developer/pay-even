@@ -3,6 +3,8 @@
 	import { enhance } from "$app/forms";
 	import type { Person } from "$lib/server/database";
 	import Expense from "./Expense.svelte";
+	import IconButton, { Icon } from "@smui/icon-button";
+	import { mdiDelete } from "@mdi/js";
 
 	export let person: Person;
 </script>
@@ -11,7 +13,11 @@
 
 <form method="POST" action="?/deletePerson" use:enhance>
 	<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-	<button>Delete</button>
+	<IconButton>
+		<Icon tag="svg">
+			<path fill="currentColor" d={mdiDelete} />
+		</Icon>
+	</IconButton>
 </form>
 <form method="POST" action="?/createExpense" use:enhance>
 	<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />

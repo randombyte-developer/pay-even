@@ -3,6 +3,7 @@
 	import { enhance } from "$app/forms";
 	import Person from "../components/Person.svelte";
 	import Expense from "../components/Expense.svelte";
+	import Button, { Label } from "@smui/button";
 
 	export let data;
 	export let form;
@@ -11,8 +12,6 @@
 		return data.persons.find((p) => p.id === id)?.name ?? "<Unknown person>";
 	}
 </script>
-
-<h1>PayEven</h1>
 
 <form method="POST" action="?/createPerson" use:enhance>
 	<label>
@@ -23,7 +22,9 @@
 </form>
 
 <form method="POST" action="?/clear" use:enhance>
-	<button>Clear</button>
+	<Button>
+		<Label>Clear</Label>
+	</Button>
 </form>
 
 <ul>
