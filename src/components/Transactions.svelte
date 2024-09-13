@@ -4,11 +4,15 @@
 	export let transactions: Transaction[];
 </script>
 
-Result:
-<ul>
+<div id="container">
 	{#each transactions as { from, to, amount }}
-		<li>
-			{from} has to pay {to}: {amount}
-		</li>
+		{from} has to pay {to}: {amount}
 	{/each}
-</ul>
+</div>
+
+<style>
+	#container {
+		display: flex;
+		flex-direction: column;
+	}
+</style>

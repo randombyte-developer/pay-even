@@ -7,35 +7,39 @@
 
 <svelte:head>
 	{#if $isDarkTheme}
-		<link rel="stylesheet" href="/smui.css" />
-	{:else}
 		<link rel="stylesheet" href="/smui-dark.css" />
+	{:else}
+		<link rel="stylesheet" href="/smui.css" />
 	{/if}
 </svelte:head>
 
-<div>
-	<div class="app-bar-container">
-		<TopAppBar variant="static" color="primary">
-			<Row>
-				<Section>
-					<Title>PayEven</Title>
-				</Section>
-				<Section align="end" toolbar>
-					<IconButton class="button" on:click={(e) => isDarkTheme.update((isDark) => !isDark)}>
-						<Icon tag="svg">
-							<path fill="currentColor" d={mdiPalette} />
-						</Icon>
-					</IconButton>
-				</Section>
-			</Row>
-		</TopAppBar>
-	</div>
+<div id="container">
+	<TopAppBar variant="static" color="primary">
+		<Row>
+			<Section>
+				<Title>PayEven</Title>
+			</Section>
+			<Section align="end" toolbar>
+				<IconButton class="button" on:click={(e) => isDarkTheme.update((isDark) => !isDark)}>
+					<Icon tag="svg">
+						<path fill="currentColor" d={mdiPalette} />
+					</Icon>
+				</IconButton>
+			</Section>
+		</Row>
+	</TopAppBar>
 
-	<slot></slot>
+	<div id="content">
+		<slot></slot>
+	</div>
 </div>
 
 <style>
-	.app-bar-container {
+	#container {
 		width: 100%;
+	}
+
+	#content {
+		padding-top: 16px;
 	}
 </style>
