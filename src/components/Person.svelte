@@ -5,7 +5,7 @@
 	import Expense from "./Expense.svelte";
 	import IconButton, { Icon } from "@smui/icon-button";
 	import { mdiPlus } from "@mdi/js";
-	import Card, { Content, PrimaryAction, Actions, ActionButtons, ActionIcons } from "@smui/card";
+	import Card, { Content, Actions } from "@smui/card";
 	import Button, { Label } from "@smui/button";
 	import Textfield from "@smui/textfield";
 
@@ -19,22 +19,7 @@
 			<div id="header">
 				<p>{person.name}</p>
 			</div>
-			<form method="POST" action="?/createExpense" use:enhance>
-				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-				<Textfield input$name={constants.FORM_EXPENSE_NAME} label="Name (Optional)" value="" />
-				<Textfield
-					input$name={constants.FORM_EXPENSE_AMOUNT}
-					label="Amount"
-					value=""
-					type="number"
-					required
-				/>
-				<IconButton>
-					<Icon tag="svg">
-						<path d={mdiPlus} />
-					</Icon>
-				</IconButton>
-			</form>
+			<Expense personId={person.id} />
 
 			{#if form?.error && form?.personId == person.id}
 				<p>Error: {form.error}</p>
