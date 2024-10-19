@@ -8,7 +8,8 @@ export type Transaction = {
 };
 
 export function calculate(persons: Person[]): Transaction[] {
-	const getPersonName = (id: string) => persons.find((p) => p.id === id)?.name ?? "<Unknown person>";
+	const getPersonName = (id: string) =>
+		persons.find((p) => p.id === id)?.name ?? "<Unknown person>";
 
 	const expenses = persons.map((person) => ({
 		id: person.id,

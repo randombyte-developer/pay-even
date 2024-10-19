@@ -3,6 +3,7 @@
 	import IconButton, { Icon } from "@smui/icon-button";
 	import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
 	import { isDarkTheme } from "../stores";
+	import "../styles.css";
 </script>
 
 <svelte:head>
