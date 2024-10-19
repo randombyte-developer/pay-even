@@ -11,8 +11,8 @@
 </script>
 
 <div id="container">
-	<Textfield value={expense.amountCents} />
 	<Textfield value={expense.name} />
+	<Textfield value={expense.amountCents} />
 
 	<form method="POST" action="?/deleteExpense" use:enhance style="align-self: center">
 		<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />

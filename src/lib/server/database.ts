@@ -67,7 +67,7 @@ export function createExpense(
 	name?: string
 ) {
 	const person = getPerson(userId, personId);
-	person.expenses.push({
+	person.expenses.unshift({
 		id: crypto.randomUUID(),
 		amountCents: amountCents,
 		name: name

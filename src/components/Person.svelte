@@ -21,6 +21,7 @@
 			</div>
 			<form method="POST" action="?/createExpense" use:enhance>
 				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+				<Textfield input$name={constants.FORM_EXPENSE_NAME} label="Name (Optional)" value="" />
 				<Textfield
 					input$name={constants.FORM_EXPENSE_AMOUNT}
 					label="Amount"
@@ -28,7 +29,6 @@
 					type="number"
 					required
 				/>
-				<Textfield input$name={constants.FORM_EXPENSE_NAME} label="Name (Optional)" value="" />
 				<IconButton>
 					<Icon tag="svg">
 						<path d={mdiPlus} />
