@@ -8,6 +8,7 @@
 	import IconButton, { Icon } from "@smui/icon-button";
 	import { mdiPlus } from "@mdi/js";
 
+	export let form;
 	export let persons;
 </script>
 
@@ -38,7 +39,7 @@
 
 	<div id="list">
 		{#each persons as person}
-			<Person {person} />
+			<Person {form} {person} />
 		{/each}
 	</div>
 </div>

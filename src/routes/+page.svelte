@@ -10,7 +10,7 @@
 
 <div id="container">
 	<div id="main">
-		<PersonGrid persons={data.persons} />
+		<PersonGrid {form} persons={data.persons} />
 
 		<form method="POST" action="?/calculate" use:enhance>
 			<Button variant="raised">

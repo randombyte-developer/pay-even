@@ -1,6 +1,7 @@
 import * as constants from "$lib/constants";
 import * as calculator from "$lib/server/calculator";
 import * as db from "$lib/server/database";
+import { fail } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 
 const userIdCookie = "userId";
@@ -43,6 +44,11 @@ export const actions = {
 		const personId = data.get(constants.FORM_PERSON_ID) as string;
 		const expenseAmount = parseInt(data.get(constants.FORM_EXPENSE_AMOUNT) as string);
 		const expenseName = data.get(constants.FORM_EXPENSE_NAME) as string | undefined;
+
+		if (isNaN(expenseAmount) || expenseAmount <= 0) {
+			return fail(422, { error: "Invalid number!", personId: personId });
+		}
+
 		db.createExpense(userId, personId, expenseAmount, expenseName);
 	},
 	deleteExpense: async ({ cookies, request }) => {

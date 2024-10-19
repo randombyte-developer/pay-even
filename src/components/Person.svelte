@@ -4,11 +4,12 @@
 	import type { Person } from "$lib/server/database";
 	import Expense from "./Expense.svelte";
 	import IconButton, { Icon } from "@smui/icon-button";
-	import { mdiDelete } from "@mdi/js";
+	import { mdiPlus } from "@mdi/js";
 	import Card, { Content, PrimaryAction, Actions, ActionButtons, ActionIcons } from "@smui/card";
 	import Button, { Label } from "@smui/button";
 	import Textfield from "@smui/textfield";
 
+	export let form;
 	export let person: Person;
 </script>
 
@@ -20,10 +21,24 @@
 			</div>
 			<form method="POST" action="?/createExpense" use:enhance>
 				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-				<Textfield input$name={constants.FORM_EXPENSE_AMOUNT} label="Amount" value="" />
+				<Textfield
+					input$name={constants.FORM_EXPENSE_AMOUNT}
+					label="Amount"
+					value=""
+					type="number"
+					required
+				/>
 				<Textfield input$name={constants.FORM_EXPENSE_NAME} label="Name (Optional)" value="" />
-				<button>Create</button>
+				<IconButton>
+					<Icon tag="svg">
+						<path d={mdiPlus} />
+					</Icon>
+				</IconButton>
 			</form>
+
+			{#if form?.error && form?.personId == person.id}
+				<p>Error: {form.error}</p>
+			{/if}
 
 			<div id="list">
 				{#each person.expenses as expense}
