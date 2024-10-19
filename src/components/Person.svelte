@@ -19,22 +19,6 @@
 				<p>{person.name}</p>
 			</div>
 
-			<form method="POST" action="?/createExpense" use:enhance class="row">
-				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-
-				<Expense />
-
-				<IconButton>
-					<Icon tag="svg">
-						<path d={mdiPlus} />
-					</Icon>
-				</IconButton>
-			</form>
-
-			{#if form?.error && form?.personId == person.id}
-				<p>Error: {form.error}</p>
-			{/if}
-
 			<div id="list">
 				{#each person.expenses as expense}
 					<form
@@ -57,6 +41,22 @@
 					</form>
 				{/each}
 			</div>
+
+			<form method="POST" action="?/createExpense" use:enhance class="row">
+				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+
+				<Expense />
+
+				<IconButton>
+					<Icon tag="svg">
+						<path d={mdiPlus} />
+					</Icon>
+				</IconButton>
+			</form>
+
+			{#if form?.error && form?.personId == person.id}
+				<p>Error: {form.error}</p>
+			{/if}
 		</Content>
 		<Actions style="justify-content: end">
 			<form method="POST" action="?/deletePerson" use:enhance>

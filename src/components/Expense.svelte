@@ -9,7 +9,7 @@
 <div id="container">
 	<Textfield
 		input$name={constants.FORM_EXPENSE_NAME}
-		label="Name (Optional)"
+		label="Name"
 		bind:value={name}
 		style="flex: 3"
 	/>
