@@ -2,12 +2,11 @@
 	import * as constants from "$lib/constants";
 	import { enhance } from "$app/forms";
 	import type { Person } from "$lib/server/database";
-	import Expense from "./Expense.svelte";
 	import IconButton, { Icon } from "@smui/icon-button";
-	import { mdiPlus } from "@mdi/js";
+	import { mdiDelete, mdiPlus } from "@mdi/js";
 	import Card, { Content, Actions } from "@smui/card";
 	import Button, { Label } from "@smui/button";
-	import Textfield from "@smui/textfield";
+	import Expense from "./Expense.svelte";
 
 	export let form;
 	export let person: Person;
@@ -19,7 +18,18 @@
 			<div id="header">
 				<p>{person.name}</p>
 			</div>
-			<Expense personId={person.id} />
+
+			<form method="POST" action="?/createExpense" use:enhance class="row">
+				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+
+				<Expense />
+
+				<IconButton>
+					<Icon tag="svg">
+						<path d={mdiPlus} />
+					</Icon>
+				</IconButton>
+			</form>
 
 			{#if form?.error && form?.personId == person.id}
 				<p>Error: {form.error}</p>
@@ -27,7 +37,24 @@
 
 			<div id="list">
 				{#each person.expenses as expense}
-					<Expense {expense} personId={person.id} />
+					<form
+						method="POST"
+						action="?/deleteExpense"
+						use:enhance
+						style="align-self: center"
+						class="row"
+					>
+						<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+						<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />
+
+						<Expense name={expense.name} amountCents={expense.amountCents} />
+
+						<IconButton>
+							<Icon tag="svg">
+								<path d={mdiDelete} />
+							</Icon>
+						</IconButton>
+					</form>
 				{/each}
 			</div>
 		</Content>
@@ -58,5 +85,10 @@
 	#list {
 		display: flex;
 		flex-direction: column;
+	}
+
+	.row {
+		display: flex;
+		flex-direction: row;
 	}
 </style>
