@@ -6,7 +6,7 @@
 
 <div id="container">
 	{#each transactions as { from, to, amount }}
-		{from} has to pay {to}: {amount}
+		<p>{from} has to pay {to}: {amount}</p>
 	{/each}
 </div>
 

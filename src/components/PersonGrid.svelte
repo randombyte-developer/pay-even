@@ -54,6 +54,7 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+		gap: 16px;
 	}
 
 	.flex-row {
