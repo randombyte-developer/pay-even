@@ -74,6 +74,22 @@ export function createExpense(
 	});
 }
 
+export function updateExpense(
+	userId: string,
+	personId: string,
+	expenseId: string,
+	amountCents: number,
+	name?: string
+) {
+	const person = getPerson(userId, personId);
+	const expense = person.expenses.find((expense) => expense.id === expenseId);
+	if (expense == null) {
+		throw error(404, "Expense not found!");
+	}
+	expense.amountCents = amountCents;
+	expense.name = name;
+}
+
 export function deleteExpense(userId: string, personId: string, expenseId: string) {
 	const person = getPerson(userId, personId);
 	person.expenses = person.expenses.filter((expense) => expense.id !== expenseId);

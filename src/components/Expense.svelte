@@ -11,78 +11,77 @@
 	let editMode: boolean = expense == null;
 </script>
 
-<form id="upsertExpense" method="POST" action="?/upsertExpense" use:enhance>
-	<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
-	<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />
-</form>
-
-<form id="deleteExpense" method="POST" action="?/deleteExpense" use:enhance>
-	<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
-	<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />
-</form>
-
 <div id="container">
-	{#if editMode}
-		<Textfield
-			input$form="upsertExpense"
-			input$name={constants.FORM_EXPENSE_NAME}
-			label="Name"
-			value={expense?.name ?? ""}
-			style="flex: 3"
-		/>
-		<Textfield
-			input$form="upsertExpense"
-			input$name={constants.FORM_EXPENSE_AMOUNT}
-			label="Amount"
-			value={expense?.amountCents ?? ""}
-			type="number"
-			required
-			style="flex: 1;"
-		/>
-	{:else}
-		<span style="flex: 3"> {expense?.name}</span>
-		<span style="flex: 1">{expense?.amountCents}</span>
-	{/if}
-
-	<div id="actions">
+	<form
+		id="upsertExpense"
+		method="POST"
+		action="?/upsertExpense"
+		class="row gap w100"
+		use:enhance={() => {
+			editMode = false;
+		}}
+	>
+		<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
 		{#if expense}
-			{#if editMode}
-				<IconButton
-					form="upsertExpense"
-					style="flex: 1"
-					on:click={() => (editMode = true)}
-					name={constants.FORM_ACTION}
-					value={constants.FORM_ACTION_UPSERT}
-				>
-					<Icon tag="svg">
-						<path d={mdiContentSave} />
-					</Icon>
-				</IconButton>
+			<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense.id} />
+		{/if}
+
+		{#if editMode}
+			<Textfield
+				input$name={constants.FORM_EXPENSE_NAME}
+				label="Name"
+				value={expense?.name ?? ""}
+				style="flex: 3"
+			/>
+			<Textfield
+				input$name={constants.FORM_EXPENSE_AMOUNT}
+				label="Amount"
+				value={expense?.amountCents ?? ""}
+				type="number"
+				required
+				style="flex: 1;"
+			/>
+		{:else}
+			<span style="flex: 3"> {expense?.name}</span>
+			<span style="flex: 1">{expense?.amountCents}</span>
+		{/if}
+
+		<div id="actions">
+			{#if expense}
+				{#if editMode}
+					<IconButton style="flex: 1">
+						<Icon tag="svg">
+							<path d={mdiContentSave} />
+						</Icon>
+					</IconButton>
+				{:else}
+					<IconButton style="flex: 1" on:click={() => (editMode = true)}>
+						<Icon tag="svg">
+							<path d={mdiPencil} />
+						</Icon>
+					</IconButton>
+				{/if}
 			{:else}
-				<IconButton style="flex: 1" type="button" on:click={() => (editMode = true)}>
+				<IconButton>
 					<Icon tag="svg">
-						<path d={mdiPencil} />
+						<path d={mdiPlus} />
 					</Icon>
 				</IconButton>
 			{/if}
-			<IconButton
-				form="deleteExpense"
-				style="flex: 1"
-				name={constants.FORM_ACTION}
-				value={constants.FORM_ACTION_DELETE}
-			>
+		</div>
+	</form>
+
+	{#if expense && editMode}
+		<form id="deleteExpense" method="POST" action="?/deleteExpense" use:enhance>
+			<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
+			<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />
+			<IconButton style="flex: 1">
 				<Icon tag="svg">
 					<path d={mdiDelete} />
 				</Icon>
 			</IconButton>
-		{:else}
-			<IconButton form="upsertExpense">
-				<Icon tag="svg">
-					<path d={mdiPlus} />
-				</Icon>
-			</IconButton>
-		{/if}
-	</div>
+		</form>
+	{/if}
 </div>
 
 <style>
@@ -92,6 +91,19 @@
 		gap: 16px;
 		width: 100%;
 		align-self: center;
+	}
+
+	.row {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.gap {
+		gap: 16px;
+	}
+
+	.w100 {
+		width: 100%;
 	}
 
 	#actions {

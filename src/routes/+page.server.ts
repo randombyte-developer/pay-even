@@ -44,12 +44,17 @@ export const actions = {
 		const personId = data.get(constants.FORM_PERSON_ID) as string;
 		const expenseAmount = parseInt(data.get(constants.FORM_EXPENSE_AMOUNT) as string);
 		const expenseName = data.get(constants.FORM_EXPENSE_NAME) as string | undefined;
+		const expenseId = data.get(constants.FORM_EXPENSE_ID) as string | undefined;
 
 		if (isNaN(expenseAmount) || expenseAmount <= 0) {
 			return fail(422, { error: "Invalid number!", personId: personId });
 		}
 
-		db.createExpense(userId, personId, expenseAmount, expenseName);
+		if (expenseId) {
+			db.updateExpense(userId, personId, expenseId, expenseAmount, expenseName);
+		} else {
+			db.createExpense(userId, personId, expenseAmount, expenseName);
+		}
 	},
 	deleteExpense: async ({ cookies, request }) => {
 		const data = await request.formData();
