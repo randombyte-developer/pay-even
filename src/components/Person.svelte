@@ -29,38 +29,11 @@
 			<Content>
 				<div id="list">
 					{#each person.expenses as expense}
-						<form
-							method="POST"
-							action="?/deleteExpense"
-							use:enhance
-							style="align-self: center"
-							class="row"
-						>
-							<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-							<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />
-
-							<Expense name={expense.name} amountCents={expense.amountCents} />
-
-							<IconButton>
-								<Icon tag="svg">
-									<path d={mdiDelete} />
-								</Icon>
-							</IconButton>
-						</form>
+						<Expense personId={person.id} {expense} />
 					{/each}
 				</div>
 
-				<form method="POST" action="?/createExpense" use:enhance class="row">
-					<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-
-					<Expense />
-
-					<IconButton>
-						<Icon tag="svg">
-							<path d={mdiPlus} />
-						</Icon>
-					</IconButton>
-				</form>
+				<Expense personId={person.id} expense={null} />
 
 				{#if form?.error && form?.personId == person.id}
 					<p>Error: {form.error}</p>
@@ -88,10 +61,5 @@
 	#list {
 		display: flex;
 		flex-direction: column;
-	}
-
-	.row {
-		display: flex;
-		flex-direction: row;
 	}
 </style>
