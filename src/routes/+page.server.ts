@@ -38,7 +38,7 @@ export const actions = {
 		const personId = data.get(constants.FORM_PERSON_ID) as string;
 		db.deletePerson(userId, personId);
 	},
-	createExpense: async ({ cookies, request }) => {
+	upsertExpense: async ({ cookies, request }) => {
 		const data = await request.formData();
 		const userId = cookies.get(userIdCookie)!;
 		const personId = data.get(constants.FORM_PERSON_ID) as string;

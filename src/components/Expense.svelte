@@ -3,31 +3,35 @@
 	import Textfield from "@smui/textfield";
 	import { enhance } from "$app/forms";
 	import IconButton, { Icon } from "@smui/icon-button";
-	import { mdiDelete, mdiPlus } from "@mdi/js";
+	import { mdiDelete, mdiPlus, mdiPencil, mdiContentSave } from "@mdi/js";
 	import type { Expense } from "$lib/server/database";
 
 	export let personId: string;
 	export let expense: Expense | null = null;
-	let editMode: boolean = true;
+	let editMode: boolean = expense == null;
 </script>
 
-<form
-	method="POST"
-	action="?/{expense == null ? 'createExpense' : 'deleteExpense'}"
-	use:enhance
-	id="container"
->
+<form id="upsertExpense" method="POST" action="?/upsertExpense" use:enhance>
 	<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
 	<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />
+</form>
 
+<form id="deleteExpense" method="POST" action="?/deleteExpense" use:enhance>
+	<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
+	<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />
+</form>
+
+<div id="container">
 	{#if editMode}
 		<Textfield
+			input$form="upsertExpense"
 			input$name={constants.FORM_EXPENSE_NAME}
 			label="Name"
 			value={expense?.name ?? ""}
 			style="flex: 3"
 		/>
 		<Textfield
+			input$form="upsertExpense"
 			input$name={constants.FORM_EXPENSE_AMOUNT}
 			label="Amount"
 			value={expense?.amountCents ?? ""}
@@ -40,20 +44,46 @@
 		<span style="flex: 1">{expense?.amountCents}</span>
 	{/if}
 
-	{#if expense}
-		<IconButton>
-			<Icon tag="svg">
-				<path d={mdiDelete} />
-			</Icon>
-		</IconButton>
-	{:else}
-		<IconButton>
-			<Icon tag="svg">
-				<path d={mdiPlus} />
-			</Icon>
-		</IconButton>
-	{/if}
-</form>
+	<div id="actions">
+		{#if expense}
+			{#if editMode}
+				<IconButton
+					form="upsertExpense"
+					style="flex: 1"
+					on:click={() => (editMode = true)}
+					name={constants.FORM_ACTION}
+					value={constants.FORM_ACTION_UPSERT}
+				>
+					<Icon tag="svg">
+						<path d={mdiContentSave} />
+					</Icon>
+				</IconButton>
+			{:else}
+				<IconButton style="flex: 1" type="button" on:click={() => (editMode = true)}>
+					<Icon tag="svg">
+						<path d={mdiPencil} />
+					</Icon>
+				</IconButton>
+			{/if}
+			<IconButton
+				form="deleteExpense"
+				style="flex: 1"
+				name={constants.FORM_ACTION}
+				value={constants.FORM_ACTION_DELETE}
+			>
+				<Icon tag="svg">
+					<path d={mdiDelete} />
+				</Icon>
+			</IconButton>
+		{:else}
+			<IconButton form="upsertExpense">
+				<Icon tag="svg">
+					<path d={mdiPlus} />
+				</Icon>
+			</IconButton>
+		{/if}
+	</div>
+</div>
 
 <style>
 	#container {
@@ -62,5 +92,12 @@
 		gap: 16px;
 		width: 100%;
 		align-self: center;
+	}
+
+	#actions {
+		display: flex;
+		flex-direction: row;
+		gap: 16px;
+		flex: 1;
 	}
 </style>

@@ -1,3 +1,7 @@
+export const FORM_ACTION = "action";
+export const FORM_ACTION_UPSERT = "upsert";
+export const FORM_ACTION_DELETE = "delete";
+
 export const FORM_PERSON_NAME = "personName";
 export const FORM_PERSON_ID = "personId";
 
