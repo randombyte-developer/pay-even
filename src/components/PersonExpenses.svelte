@@ -3,9 +3,9 @@
 	import { enhance } from "$app/forms";
 	import type { Person } from "$lib/server/database";
 	import IconButton, { Icon } from "@smui/icon-button";
-	import { mdiDelete, mdiPlus } from "@mdi/js";
-	import Expense from "./Expense.svelte";
-	import Paper, { Title, Subtitle, Content } from "@smui/paper";
+	import { mdiDelete } from "@mdi/js";
+	import Paper, { Content } from "@smui/paper";
+	import ExpenseComponent from "./ExpenseComponent.svelte";
 
 	export let form;
 	export let person: Person;
@@ -28,12 +28,12 @@
 		<div style="padding: 24px;">
 			<Content>
 				<div id="list">
-					{#each person.expenses as expense}
-						<Expense personId={person.id} {expense} />
+					{#each person.expenses as expense (expense.id)}
+						<ExpenseComponent personId={person.id} {expense} />
 					{/each}
 				</div>
 
-				<Expense personId={person.id} />
+				<ExpenseComponent personId={person.id} />
 
 				{#if form?.error && form?.personId == person.id}
 					<p>Error: {form.error}</p>

@@ -2,14 +2,15 @@
 	import { enhance } from "$app/forms";
 	import * as constants from "$lib/constants";
 	import Button, { Label } from "@smui/button";
-	import Person from "../components/Person.svelte";
-	import Paper, { Title, Subtitle, Content } from "@smui/paper";
-	import TextField, { Input } from "@smui/textfield";
+	import Person from "./PersonExpenses.svelte";
+	import Paper, { Content } from "@smui/paper";
+	import TextField from "@smui/textfield";
 	import IconButton, { Icon } from "@smui/icon-button";
 	import { mdiPlus } from "@mdi/js";
+	import PersonExpenses from "./PersonExpenses.svelte";
 
 	export let form;
-	export let persons;
+	export let persons: Person[];
 </script>
 
 <div id="container">
@@ -38,8 +39,8 @@
 	</form>
 
 	<div id="list">
-		{#each persons as person}
-			<Person {form} {person} />
+		{#each persons as person (person.id)}
+			<PersonExpenses {form} {person} />
 		{/each}
 	</div>
 </div>

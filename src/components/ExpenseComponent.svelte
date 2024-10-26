@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as constants from "$lib/constants";
 	import Textfield from "@smui/textfield";
-	import { applyAction, enhance } from "$app/forms";
+	import { enhance } from "$app/forms";
 	import IconButton, { Icon } from "@smui/icon-button";
 	import { mdiDelete, mdiPlus, mdiPencil, mdiContentSave } from "@mdi/js";
 	import type { Expense } from "$lib/server/database";
