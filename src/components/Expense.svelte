@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as constants from "$lib/constants";
 	import Textfield from "@smui/textfield";
-	import { enhance } from "$app/forms";
+	import { applyAction, enhance } from "$app/forms";
 	import IconButton, { Icon } from "@smui/icon-button";
 	import { mdiDelete, mdiPlus, mdiPencil, mdiContentSave } from "@mdi/js";
 	import type { Expense } from "$lib/server/database";
@@ -23,6 +23,11 @@
 			if (!isCreate) {
 				isEditMode = false;
 			}
+
+			// Populate the form with the new data without resetting the form (emptying the fields)
+			return async ({ result }) => {
+				await applyAction(result);
+			};
 		}}
 	>
 		<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
@@ -30,25 +35,22 @@
 			<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense.id} />
 		{/if}
 
-		{#if isEditMode}
-			<Textfield
-				input$name={constants.FORM_EXPENSE_NAME}
-				label="Name"
-				value={expense?.name ?? ""}
-				style="flex: 3"
-			/>
-			<Textfield
-				input$name={constants.FORM_EXPENSE_AMOUNT}
-				label="Amount"
-				value={expense?.amountCents ?? ""}
-				type="number"
-				required
-				style="flex: 1;"
-			/>
-		{:else}
-			<span style="flex: 3">{expense?.name}</span>
-			<span style="flex: 1">{expense?.amountCents}</span>
-		{/if}
+		<Textfield
+			input$name={constants.FORM_EXPENSE_NAME}
+			label="Name"
+			value={expense?.name ?? ""}
+			disabled={!isEditMode}
+			style="flex: 3"
+		/>
+		<Textfield
+			input$name={constants.FORM_EXPENSE_AMOUNT}
+			label="Amount"
+			value={expense?.amountCents ?? ""}
+			type="number"
+			required
+			disabled={!isEditMode}
+			style="flex: 1;"
+		/>
 
 		<div id="actions">
 			{#if expense}
