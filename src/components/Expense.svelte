@@ -21,12 +21,15 @@
 		class="row gap w100"
 		use:enhance={() => {
 			if (!isCreate) {
+				// Only make updated already-existing expenses readonly after editing.
+				// The component instance that is used for creating expenses should stay editable.
 				isEditMode = false;
 			}
 
-			// Populate the form with the new data without resetting the form (emptying the fields)
-			return async ({ result }) => {
-				await applyAction(result);
+			return async ({ update }) => {
+				// When creating, the input fields should be cleared after submit. (This is the default behavior)
+				// When updating, the input fields should not be cleared. Otherwise no value would be displayed.
+				update({ reset: isCreate });
 			};
 		}}
 	>
