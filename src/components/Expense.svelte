@@ -8,7 +8,9 @@
 
 	export let personId: string;
 	export let expense: Expense | null = null;
-	let editMode: boolean = expense == null;
+
+	let isCreate = expense == null;
+	let isEditMode = isCreate;
 </script>
 
 <div id="container">
@@ -18,7 +20,9 @@
 		action="?/upsertExpense"
 		class="row gap w100"
 		use:enhance={() => {
-			editMode = false;
+			if (!isCreate) {
+				isEditMode = false;
+			}
 		}}
 	>
 		<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
@@ -26,7 +30,7 @@
 			<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense.id} />
 		{/if}
 
-		{#if editMode}
+		{#if isEditMode}
 			<Textfield
 				input$name={constants.FORM_EXPENSE_NAME}
 				label="Name"
@@ -42,20 +46,20 @@
 				style="flex: 1;"
 			/>
 		{:else}
-			<span style="flex: 3"> {expense?.name}</span>
+			<span style="flex: 3">{expense?.name}</span>
 			<span style="flex: 1">{expense?.amountCents}</span>
 		{/if}
 
 		<div id="actions">
 			{#if expense}
-				{#if editMode}
+				{#if isEditMode}
 					<IconButton style="flex: 1">
 						<Icon tag="svg">
 							<path d={mdiContentSave} />
 						</Icon>
 					</IconButton>
 				{:else}
-					<IconButton style="flex: 1" on:click={() => (editMode = true)}>
+					<IconButton style="flex: 1" on:click={() => (isEditMode = true)}>
 						<Icon tag="svg">
 							<path d={mdiPencil} />
 						</Icon>
@@ -71,7 +75,7 @@
 		</div>
 	</form>
 
-	{#if expense && editMode}
+	{#if expense && isEditMode}
 		<form id="deleteExpense" method="POST" action="?/deleteExpense" use:enhance>
 			<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
 			<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />

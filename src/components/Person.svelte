@@ -33,7 +33,7 @@
 					{/each}
 				</div>
 
-				<Expense personId={person.id} expense={null} />
+				<Expense personId={person.id} />
 
 				{#if form?.error && form?.personId == person.id}
 					<p>Error: {form.error}</p>
