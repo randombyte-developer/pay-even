@@ -7,13 +7,17 @@
 	import Textfield from "@smui/textfield";
 
 	export let form;
-	export let person: Person;
+	export let person: Person | null = null;
 </script>
 
 <div id="container">
 	<Paper style="width: 100%; padding: 0px">
 		<div id="header">
-			<EditableRecord upsertAction="upsertPerson" deleteAction="deletePerson" isCreate={false}>
+			<EditableRecord
+				upsertAction="upsertPerson"
+				deleteAction="deletePerson"
+				isCreate={person == null}
+			>
 				<div id="container" slot="inputs" let:isEditMode>
 					{#if person}
 						<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
@@ -24,29 +28,32 @@
 							input$name={constants.FORM_PERSON_NAME}
 							label="Name"
 							value={person?.name ?? ""}
+							required
 						/>
 					{:else}
-						<h3 style="padding-left: 16px">{person.name}</h3>
+						<h3 style="padding-left: 16px">{person?.name}</h3>
 					{/if}
 				</div>
 				<div slot="recordIdentifier">
-					<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+					<input type="hidden" name={constants.FORM_PERSON_ID} value={person?.id} />
 				</div>
 			</EditableRecord>
 		</div>
 
 		<div style="padding: 24px;">
 			<Content>
-				<div id="list">
-					{#each person.expenses as expense (expense.id)}
-						<ExpenseRow personId={person.id} {expense} />
-					{/each}
-				</div>
+				{#if person}
+					<div id="list">
+						{#each person.expenses as expense (expense.id)}
+							<ExpenseRow personId={person.id} {expense} />
+						{/each}
+					</div>
 
-				<ExpenseRow personId={person.id} />
+					<ExpenseRow personId={person.id} />
 
-				{#if form?.error && form?.personId == person.id}
-					<p>Error: {form.error}</p>
+					{#if form?.error && form?.personId == person.id}
+						<p>Error: {form.error}</p>
+					{/if}
 				{/if}
 			</Content>
 		</div>
