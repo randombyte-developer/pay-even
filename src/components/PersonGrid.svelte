@@ -14,7 +14,7 @@
 </script>
 
 <div id="container">
-	<Paper style="align-self: center; width: 360px">
+	<Paper style="align-self: center; width: 600px">
 		<Content>
 			<form class="flex-row" method="POST" action="?/createPerson" use:enhance>
 				<TextField
