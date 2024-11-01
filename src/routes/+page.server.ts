@@ -26,11 +26,16 @@ export const actions = {
 			db.deletePerson(userId, person.id);
 		}
 	},
-	createPerson: async ({ cookies, request }) => {
+	upsertPerson: async ({ cookies, request }) => {
 		const data = await request.formData();
 		const userId = cookies.get(userIdCookie)!;
 		const personName = data.get(constants.FORM_PERSON_NAME) as string;
-		db.createPerson(userId, personName);
+		const personId = data.get(constants.FORM_PERSON_ID) as string | undefined;
+		if (personId) {
+			db.updatePerson(userId, personId, personName);
+		} else {
+			db.createPerson(userId, personName);
+		}
 	},
 	deletePerson: async ({ cookies, request }) => {
 		const data = await request.formData();

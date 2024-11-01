@@ -41,6 +41,11 @@ export function createPerson(userId: string, name: string) {
 	user.persons.push(person);
 }
 
+export function updatePerson(userId: string, personId: string, name: string) {
+	const person = getPerson(userId, personId);
+	person.name = name;
+}
+
 export function getPersons(userId: string): Person[] {
 	return getOrCreateUser(userId).persons;
 }

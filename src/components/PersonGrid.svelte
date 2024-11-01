@@ -16,7 +16,7 @@
 <div id="container">
 	<Paper style="align-self: center; width: 600px">
 		<Content>
-			<form class="flex-row" method="POST" action="?/createPerson" use:enhance>
+			<form class="flex-row" method="POST" action="?/upsertPerson" use:enhance>
 				<TextField
 					input$name={constants.FORM_PERSON_NAME}
 					label="Name"

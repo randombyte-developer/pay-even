@@ -1,11 +1,10 @@
 <script lang="ts">
 	import * as constants from "$lib/constants";
-	import { enhance } from "$app/forms";
 	import type { Person } from "$lib/server/database";
-	import IconButton, { Icon } from "@smui/icon-button";
-	import { mdiDelete } from "@mdi/js";
 	import Paper, { Content } from "@smui/paper";
 	import ExpenseRow from "./ExpenseRow.svelte";
+	import EditableRecord from "./EditableRecord.svelte";
+	import Textfield from "@smui/textfield";
 
 	export let form;
 	export let person: Person;
@@ -14,15 +13,26 @@
 <div id="container">
 	<Paper style="width: 100%; padding: 0px">
 		<div id="header">
-			<h3 style="padding-left: 16px">{person.name}</h3>
-			<form method="POST" action="?/deletePerson" use:enhance style="align-self:center">
-				<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
-				<IconButton>
-					<Icon tag="svg">
-						<path d={mdiDelete} />
-					</Icon>
-				</IconButton>
-			</form>
+			<EditableRecord upsertAction="upsertPerson" deleteAction="deletePerson" isCreate={false}>
+				<div id="container" slot="inputs" let:isEditMode>
+					{#if person}
+						<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+					{/if}
+
+					{#if isEditMode}
+						<Textfield
+							input$name={constants.FORM_PERSON_NAME}
+							label="Name"
+							value={person?.name ?? ""}
+						/>
+					{:else}
+						<h3 style="padding-left: 16px">{person.name}</h3>
+					{/if}
+				</div>
+				<div slot="recordIdentifier">
+					<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
+				</div>
+			</EditableRecord>
 		</div>
 
 		<div style="padding: 24px;">
@@ -51,9 +61,6 @@
 	}
 
 	#header {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
 		background-color: lightgray;
 		border-radius: 4px 4px 0px 0px;
 	}
