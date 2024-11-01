@@ -8,41 +8,39 @@
 	export let expense: Expense | null = null;
 </script>
 
-<div id="container">
-	<EditableRecord
-		upsertAction="upsertExpense"
-		deleteAction="deleteExpense"
-		isCreate={expense == null}
-	>
-		<div slot="inputs" let:isEditMode>
-			<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
-			{#if expense}
-				<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense.id} />
-			{/if}
+<EditableRecord
+	upsertAction="upsertExpense"
+	deleteAction="deleteExpense"
+	isCreate={expense == null}
+>
+	<div id="container" slot="inputs" let:isEditMode>
+		<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
+		{#if expense}
+			<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense.id} />
+		{/if}
 
-			<Textfield
-				input$name={constants.FORM_EXPENSE_NAME}
-				label="Name"
-				value={expense?.name ?? ""}
-				disabled={!isEditMode}
-				style="flex: 3"
-			/>
-			<Textfield
-				input$name={constants.FORM_EXPENSE_AMOUNT}
-				label="Amount"
-				value={expense?.amountCents ?? ""}
-				type="number"
-				required
-				disabled={!isEditMode}
-				style="flex: 1;"
-			/>
-		</div>
-		<div slot="recordIdentifier">
-			<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
-			<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />
-		</div>
-	</EditableRecord>
-</div>
+		<Textfield
+			input$name={constants.FORM_EXPENSE_NAME}
+			label="Name"
+			value={expense?.name ?? ""}
+			disabled={!isEditMode}
+			style="flex: 3"
+		/>
+		<Textfield
+			input$name={constants.FORM_EXPENSE_AMOUNT}
+			label="Amount"
+			value={expense?.amountCents ?? ""}
+			type="number"
+			required
+			disabled={!isEditMode}
+			style="flex: 1;"
+		/>
+	</div>
+	<div slot="recordIdentifier">
+		<input type="hidden" name={constants.FORM_PERSON_ID} value={personId} />
+		<input type="hidden" name={constants.FORM_EXPENSE_ID} value={expense?.id} />
+	</div>
+</EditableRecord>
 
 <style>
 	#container {

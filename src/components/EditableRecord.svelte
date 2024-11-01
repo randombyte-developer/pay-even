@@ -89,6 +89,6 @@
 		display: flex;
 		flex-direction: row;
 		gap: 16px;
-		flex: 1;
+		width: 160px;
 	}
 </style>
