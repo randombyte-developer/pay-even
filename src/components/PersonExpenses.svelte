@@ -5,7 +5,7 @@
 	import IconButton, { Icon } from "@smui/icon-button";
 	import { mdiDelete } from "@mdi/js";
 	import Paper, { Content } from "@smui/paper";
-	import ExpenseComponent from "./ExpenseComponent.svelte";
+	import ExpenseRow from "./ExpenseRow.svelte";
 
 	export let form;
 	export let person: Person;
@@ -29,11 +29,11 @@
 			<Content>
 				<div id="list">
 					{#each person.expenses as expense (expense.id)}
-						<ExpenseComponent personId={person.id} {expense} />
+						<ExpenseRow personId={person.id} {expense} />
 					{/each}
 				</div>
 
-				<ExpenseComponent personId={person.id} />
+				<ExpenseRow personId={person.id} />
 
 				{#if form?.error && form?.personId == person.id}
 					<p>Error: {form.error}</p>
