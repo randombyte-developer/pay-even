@@ -90,5 +90,6 @@
 		flex-direction: row;
 		gap: 16px;
 		width: 160px;
+		align-self: center;
 	}
 </style>

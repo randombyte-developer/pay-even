@@ -27,6 +27,7 @@
 		display: flex;
 		flex-direction: column;
 		width: 600px;
+		gap: 16px;
 	}
 
 	#list {

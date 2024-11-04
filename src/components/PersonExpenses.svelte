@@ -23,16 +23,26 @@
 						<input type="hidden" name={constants.FORM_PERSON_ID} value={person.id} />
 					{/if}
 
-					{#if isEditMode}
-						<Textfield
-							input$name={constants.FORM_PERSON_NAME}
-							label="Name"
-							value={person?.name ?? ""}
-							required
-						/>
-					{:else}
-						<h3 style="padding-left: 16px">{person?.name}</h3>
-					{/if}
+					<div style="margin: 8px 24px;">
+						{#if isEditMode}
+							<Textfield
+								input$name={constants.FORM_PERSON_NAME}
+								label="Name"
+								value={person?.name ?? ""}
+								required
+							/>
+						{:else}
+							<Textfield
+								input$name={constants.FORM_PERSON_NAME}
+								label="Name"
+								value={person?.name ?? ""}
+								required
+								input$readonly
+								label$hidden
+								ripple$hidden
+							/>
+						{/if}
+					</div>
 				</div>
 				<div slot="recordIdentifier">
 					<input type="hidden" name={constants.FORM_PERSON_ID} value={person?.id} />
