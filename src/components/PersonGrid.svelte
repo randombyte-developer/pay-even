@@ -1,12 +1,7 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
-	import * as constants from "$lib/constants";
 	import Person from "./PersonExpenses.svelte";
-	import Paper, { Content } from "@smui/paper";
-	import TextField from "@smui/textfield";
-	import IconButton, { Icon } from "@smui/icon-button";
-	import { mdiPlus } from "@mdi/js";
 	import PersonExpenses from "./PersonExpenses.svelte";
+	import { slide } from "svelte/transition";
 
 	export let form;
 	export let persons: Person[];
@@ -17,7 +12,9 @@
 
 	<div id="list">
 		{#each persons as person (person.id)}
-			<PersonExpenses {form} {person} />
+			<div transition:slide>
+				<PersonExpenses {form} {person} />
+			</div>
 		{/each}
 	</div>
 </div>

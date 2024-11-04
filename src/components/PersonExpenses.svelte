@@ -5,6 +5,7 @@
 	import ExpenseRow from "./ExpenseRow.svelte";
 	import EditableRecord from "./EditableRecord.svelte";
 	import Textfield from "@smui/textfield";
+	import { slide } from "svelte/transition";
 
 	export let form;
 	export let person: Person | null = null;
@@ -55,7 +56,9 @@
 				{#if person}
 					<div id="list">
 						{#each person.expenses as expense (expense.id)}
-							<ExpenseRow personId={person.id} {expense} />
+							<div transition:slide>
+								<ExpenseRow personId={person.id} {expense} />
+							</div>
 						{/each}
 					</div>
 
