@@ -25,24 +25,15 @@
 					{/if}
 
 					<div style="margin: 8px 24px;">
-						{#if isEditMode}
-							<Textfield
-								input$name={constants.FORM_PERSON_NAME}
-								label="Name"
-								value={person?.name ?? ""}
-								required
-							/>
-						{:else}
-							<Textfield
-								input$name={constants.FORM_PERSON_NAME}
-								label="Name"
-								value={person?.name ?? ""}
-								required
-								input$readonly
-								label$hidden
-								ripple$hidden
-							/>
-						{/if}
+						<Textfield
+							input$name={constants.FORM_PERSON_NAME}
+							label="Name"
+							value={person?.name ?? ""}
+							required
+							input$readonly={isEditMode ? null : true}
+							label$hidden={isEditMode ? null : true}
+							ripple$hidden={isEditMode ? null : true}
+						/>
 					</div>
 				</div>
 				<div slot="recordIdentifier">

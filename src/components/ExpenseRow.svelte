@@ -23,17 +23,22 @@
 			input$name={constants.FORM_EXPENSE_NAME}
 			label="Name"
 			value={expense?.name ?? ""}
-			disabled={!isEditMode}
 			style="flex: 3"
+			input$readonly={isEditMode ? null : true}
+			label$hidden={isEditMode ? null : true}
+			ripple$hidden={isEditMode ? null : true}
 		/>
+		<!--By setting the input type to text you can remove the number input arrows-->
 		<Textfield
 			input$name={constants.FORM_EXPENSE_AMOUNT}
 			label="Amount"
 			value={expense?.amountCents ?? ""}
-			type="number"
 			required
-			disabled={!isEditMode}
 			style="flex: 1;"
+			type={isEditMode ? "number" : "text"}
+			input$readonly={isEditMode ? null : true}
+			label$hidden={isEditMode ? null : true}
+			ripple$hidden={isEditMode ? null : true}
 		/>
 	</div>
 	<div slot="recordIdentifier">
