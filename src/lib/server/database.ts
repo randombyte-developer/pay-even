@@ -38,7 +38,7 @@ export function createPerson(userId: string, name: string) {
 		name: name,
 		expenses: []
 	};
-	user.persons.push(person);
+	user.persons.unshift(person);
 }
 
 export function updatePerson(userId: string, personId: string, name: string) {
